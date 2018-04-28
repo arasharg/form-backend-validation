@@ -142,36 +142,40 @@ class Form {
      * Send a POST request to the given URL.
      *
      * @param {string} url
+     * @param {object} options
      */
-    post(url) {
-        return this.submit('post', url);
+    post(url, options = {}) {
+        return this.submit('post', url, options);
     }
 
     /**
      * Send a PUT request to the given URL.
      *
      * @param {string} url
+     * @param {object} options
      */
-    put(url) {
-        return this.submit('put', url);
+    put(url, options = {}) {
+        return this.submit('put', url, options);
     }
 
     /**
      * Send a PATCH request to the given URL.
      *
      * @param {string} url
+     * @param {object} options
      */
-    patch(url) {
-        return this.submit('patch', url);
+    patch(url, options = {}) {
+        return this.submit('patch', url, options);
     }
 
     /**
      * Send a DELETE request to the given URL.
      *
      * @param {string} url
+     * @param {object} options
      */
-    delete(url) {
-        return this.submit('delete', url);
+    delete(url, options = {}) {
+        return this.submit('delete', url, options);
     }
 
     /**
@@ -179,8 +183,9 @@ class Form {
      *
      * @param {string} requestType
      * @param {string} url
+     * @param {object} options
      */
-    submit(requestType, url) {
+    submit(requestType, url, options = {}) {
         this.__validateRequestType(requestType);
         this.errors.clear();
         this.processing = true;
@@ -189,7 +194,8 @@ class Form {
         return new Promise((resolve, reject) => {
             this.__http[requestType](
                 url,
-                this.hasFiles() ? objectToFormData(this.data()) : this.data()
+                this.hasFiles() ? objectToFormData(this.data()) : this.data(),
+                options
             )
                 .then(response => {
                     this.processing = false;
